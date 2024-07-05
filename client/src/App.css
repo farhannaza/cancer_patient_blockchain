@@ -1,106 +1,103 @@
 :root {
-  --primary-teal: #008080;
-  --secondary-cyan: #00ced1;
-  --light-cyan: #e0ffff;
-  --dark-teal: #005f5f;
-  --white: #ffffff;
-  --black: #000000;
+  --primary-color: #131111; /* iOS black */
+  --secondary-color: #f5f5f7; /* Light gray background */
+  --accent-color: #007AFF; /* iOS blue */
+  --border-radius: 8px; /* Rounded corners */
+  --padding: 16px; /* Padding for elements */
+  --transition-duration: 0.3s; /* Transition duration */
+}
+
+body {
+  font-family: cursive;
+  background-color: var(--secondary-color); /* Light gray background */
+  color: var(--primary-color); /* Black text color */
+  margin:0;
+  padding:0;
 }
 
 .main-container {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   gap: 20px;
-  height: 90vh;
-  width: 98vw;
-  background-color: var(--light-cyan); /* Light cyan background */
-  border-radius: 12px; /* Rounded corners */
-  padding: 10px; /* Optional: Add padding to the title */
+  height: 91vh;
+  width: 97vw;
+  background-color: var(--secondary-color); /* Light gray background */
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px red; /* iOS-like shadow */
+  padding: var(--padding); /* Padding */
+  background-image: linear-gradient(rgba(122, 179, 245, 0.5), rgba(250, 250, 250, 0.5));  background-size: cover;
+  background-position: center;
 }
 
-/* Add this to make title edges rounded */
 .title {
-  background-color: var(--primary-teal); /* Primary teal background */
-  min-height: 10vh;
+  background-color: hsl(0, 0%, 99%);; /* iOS blue background */
+  min-height: 11vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--white); /* White text color */
-  border-radius: 12px; /* Rounded corners */
-  padding: 10px; /* Optional: Add padding to the title */
+  font-size: 2.5rem; /* Larger font size */
+  font-weight: bold; /* Bold font weight */
+  color: var(--primary-color); /* black text color */
+  border-top-left-radius: var(--border-radius); /* Rounded corners for top */
+  border-top-right-radius: var(--border-radius);
+  padding: var(--padding); /* Padding */
+  width: 100%;
+  text-align: center; /* Center align text */
+  text-transform: uppercase; /* Uppercase text */
+  letter-spacing: 2px; /* Letter spacing for emphasis */
 }
 
 .main-content {
   margin-top: 20px;
-  color: var(--dark-teal); /* Dark teal text color */
+  color: var(--primary-color); /* Black text color */
 }
 
 input {
-  margin: 5px;
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid var(--secondary-cyan); /* Secondary cyan border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: var(--white); /* White background */
-  color: var(--black); /* Black text color */
+  margin: 8px 0;
+  padding: 12px;
+  font-size: 1rem; /* Regular font size */
+  border: 1px solid var(--accent-color); /* iOS blue border */
+  border-radius: var(--border-radius);
+  background-color: #FFFFFF; /* White background */
+  color: var(--primary-color); /* Black text color */
+  transition: border-color var(--transition-duration) ease; /* Smooth transition */
+  width: 100%;
 }
 
 input:focus {
-  border-color: var(--primary-teal); /* Primary teal border on focus */
+  border-color: #0047AB; /* Darker iOS blue on focus */
   outline: none; /* Remove default outline */
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--primary-teal); /* Primary teal background */
-  color: var(--white); /* White text color */
+  border-radius: var(--border-radius);
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem; /* Regular font size */
+  font-weight: 600; /* Bold font weight */
+  background-color: var(--accent-color); /* iOS blue background */
+  color: var(--secondary-color); /* White text color */
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: background-color var(--transition-duration) ease, transform 0.2s ease; /* Smooth transition */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* iOS-like shadow */
 }
 
 button:hover {
-  background-color: var(--secondary-cyan); /* Secondary cyan background on hover */
-  transform: translateY(-2px); /* Slight lift on hover */
+  background-color: #0056b3; /* Darker shade of blue on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
 }
 
 button:active {
-  background-color: var(--dark-teal); /* Even darker teal on click */
-  transform: translateY(0); /* Reset transform on click */
+  background-color: #004999; /* Even darker shade on click */
+  transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Deeper shadow on click */
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto var(--secondary-cyan); /* Cyan outline on focus */
-}
-@media (prefers-color-scheme: light) {
-  :root {
-    color: var(--black); /* Black text color */
-    background-color: var(--light-cyan);
-  }
-  a {
-    color: var(--primary-teal);
-  }
-  a:hover {
-    color: var(--secondary-cyan);
-  }
-  button {
-    background-color: var(--light-cyan); /* Light cyan background */
-    color: var(--black); /* Black text color */
-  }
-  button:hover {
-    background-color: var(--primary-teal); /* Primary teal background on hover */
-    border-color: var(--secondary-cyan); /* Secondary cyan border on hover */
-    color: var(--white); /* White text color */
-  }
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.4); /* iOS-like focus ring */
 }

@@ -28,6 +28,8 @@ contract CancerPatientData {
 
     function registerPatient(address _patientAddress, string memory _name, uint256 _age) public onlyAdmin {
         require(!registeredPatients[_patientAddress], "Patient already registered.");
+        require(bytes(_name).length > 0, "Patient name cannot be empty.");
+        require(_age > 0, "Patient age must be a positive number."); // Ensuring age is positive
         patients.push(Patient(_name, _age));
         registeredPatients[_patientAddress] = true;
         emit PatientRegistered(_name, _age);
@@ -35,6 +37,8 @@ contract CancerPatientData {
 
     function updatePatient(uint256 _patientId, string memory _name, uint256 _age) public onlyAdmin {
         require(_patientId < patients.length, "Invalid patient ID.");
+        require(bytes(_name).length > 0, "Patient name cannot be empty.");
+        require(_age > 0, "Patient age must be a positive number."); // Ensuring age is positive
         patients[_patientId].name = _name;
         patients[_patientId].age = _age;
         emit PatientUpdated(_patientId, _name, _age);

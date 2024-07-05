@@ -11,7 +11,7 @@ const App = () => {
     const [patientAge, setPatientAge] = useState('');
     const [patientId, setPatientId] = useState('');
     const [fetchedPatient, setFetchedPatient] = useState(null);
-    const [updateAddress, setUpdateAddress] = useState('');
+    const [updateId, setUpdateId] = useState('');
     const [updateName, setUpdateName] = useState('');
     const [updateAge, setUpdateAge] = useState('');
     const [loading, setLoading] = useState(false);
@@ -24,15 +24,23 @@ const App = () => {
     const loadWeb3 = async () => {
         if (window.ethereum) {
             window.web3 = new Web3(window.ethereum);
-            await window.ethereum.enable();
+            try {
+                await window.ethereum.enable();
+            } catch (error) {
+                alert('User denied account access.');
+            }
         } else {
-            window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
         }
     };
 
     const loadBlockchainData = async () => {
         const web3 = new Web3(window.ethereum);
         const accounts = await web3.eth.getAccounts();
+        if (accounts.length === 0) {
+            alert('No accounts found. Please ensure your wallet is connected.');
+            return;
+        }
         setAccount(accounts[0]);
 
         const networkId = await web3.eth.net.getId();
@@ -45,13 +53,17 @@ const App = () => {
             );
             setContract(contractInstance);
         } else {
-            window.alert('The smart contract is not deployed to the current network');
+            alert('The smart contract is not deployed to the current network');
         }
     };
 
     const registerPatient = async () => {
         if (!patientAddress || !patientName || !patientAge) {
             alert('All fields are required for registering a patient.');
+            return;
+        }
+        if (isNaN(patientAge) || patientAge <= 0) {
+            alert('Patient age must be a positive number.');
             return;
         }
         setLoading(true);
@@ -63,7 +75,7 @@ const App = () => {
             setPatientAge('');
         } catch (error) {
             console.error(error);
-            alert('Error registering patient');
+            alert(`Error registering patient: ${error.message}`);
         }
         setLoading(false);
     };
@@ -79,26 +91,30 @@ const App = () => {
             setFetchedPatient(patient);
         } catch (error) {
             console.error(error);
-            alert('Error fetching patient data');
+            alert(`Error fetching patient data: ${error.message}`);
         }
         setLoading(false);
     };
 
     const updatePatient = async () => {
-        if (!updateAddress || !updateName || !updateAge) {
+        if (!updateId || !updateName || !updateAge) {
             alert('All fields are required for updating a patient.');
+            return;
+        }
+        if (isNaN(updateAge) || updateAge <= 0) {
+            alert('Patient age must be a positive number.');
             return;
         }
         setLoading(true);
         try {
-            await contract.methods.updatePatient(updateAddress, updateName, parseInt(updateAge)).send({ from: account });
+            await contract.methods.updatePatient(updateId, updateName, parseInt(updateAge)).send({ from: account });
             alert('Patient updated successfully');
-            setUpdateAddress('');
+            setUpdateId('');
             setUpdateName('');
             setUpdateAge('');
         } catch (error) {
             console.error(error);
-            alert('Error updating patient');
+            alert(`Error updating patient: ${error.message}`);
         }
         setLoading(false);
     };
@@ -160,9 +176,9 @@ const App = () => {
                     <h2>Update Patient</h2>
                     <input
                         type="text"
-                        value={updateAddress}
-                        onChange={(e) => setUpdateAddress(e.target.value)}
-                        placeholder="Patient Address"
+                        value={updateId}
+                        onChange={(e) => setUpdateId(e.target.value)}
+                        placeholder="Patient ID"
                     />
                     <input
                         type="text"
